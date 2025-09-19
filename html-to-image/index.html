@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML to Image Converter - LCOJ Tools</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Convert HTML content to high-quality PNG, JPEG, and SVG images with real-time preview, watermarking, and professional export options. Free online HTML to image converter tool.">
+    <meta name="keywords" content="html to image converter, html to png, html to jpeg, html to svg, screenshot tool, web development, image generator">
+    <meta name="author" content="LCOJ Tools">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://tools.behitek.com/html-to-image/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tools.behitek.com/html-to-image/">
+    <meta property="og:title" content="HTML to Image Converter - LCOJ Tools">
+    <meta property="og:description" content="Convert HTML content to high-quality PNG, JPEG, and SVG images with real-time preview and professional export options.">
+    <meta property="og:image" content="https://tools.behitek.com/assets/html-to-image-preview.png">
+    <meta property="og:site_name" content="LCOJ Tools">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://tools.behitek.com/html-to-image/">
+    <meta property="twitter:title" content="HTML to Image Converter - LCOJ Tools">
+    <meta property="twitter:description" content="Convert HTML content to high-quality PNG, JPEG, and SVG images with real-time preview and professional export options.">
+    <meta property="twitter:image" content="https://tools.behitek.com/assets/html-to-image-preview.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+    <link rel="manifest" href="../site.webmanifest">
+    
+    <!-- Performance and Security -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.js"></script>
+</head>
+<body>
+    <div class="container-fluid py-4">
+        <header class="text-center mb-4">
+            <h1 class="display-4 text-primary">🖼️ HTML to Image Converter</h1>
+            <p class="lead text-muted">Convert HTML content to images instantly</p>
+        </header>
+
+        <div class="row g-4 main-row">
+            <!-- HTML Editor Column -->
+            <div class="col-lg-5">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">HTML Content</h5>
+                        <div>
+                            <button id="loadSample" class="btn btn-outline-secondary btn-sm me-2">Load Sample</button>
+                            <button id="clearEditor" class="btn btn-outline-secondary btn-sm">Clear</button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0 d-flex">
+                        <textarea id="htmlEditor" class="form-control border-0 flex-fill" placeholder="Enter your HTML content here..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls Column -->
+            <div class="col-lg-2 controls-column">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h6 class="mb-0">Options</h6>
+                    </div>
+                    <div class="card-body">
+                        <!-- Format Selection -->
+                        <div class="mb-3">
+                            <label for="formatSelect" class="form-label small">Format</label>
+                            <select id="formatSelect" class="form-select">
+                                <option value="png">📷 PNG</option>
+                                <option value="jpeg">🖼️ JPEG</option>
+                                <option value="svg">🎨 SVG</option>
+                            </select>
+                        </div>
+
+                        <!-- Conversion Options -->
+                        <div class="mb-3">
+                            <h6 class="text-muted mb-2 small">⚙️ Settings</h6>
+                            
+                            <div class="mb-2">
+                                <label for="backgroundColor" class="form-label small">
+                                    Background
+                                    <i class="text-muted" data-bs-toggle="tooltip" data-bs-placement="left" title="Sets the background color for the generated image. Transparent areas in your HTML will use this color.">ℹ️</i>
+                                </label>
+                                <input type="color" id="backgroundColor" class="form-control form-control-color" value="#ffffff">
+                            </div>
+                            
+                            <div class="mb-2">
+                                <label for="quality" class="form-label small">
+                                    Quality - <span id="qualityValue">90%</span>
+                                    <i class="text-muted" data-bs-toggle="tooltip" data-bs-placement="left" title="Controls JPEG compression quality. Higher values = better quality but larger file size. Only affects JPEG format.">ℹ️</i>
+                                </label>
+                                <input type="range" id="quality" class="form-range" min="0.1" max="1" step="0.1" value="0.9">
+                            </div>
+                            
+                            <div class="mb-2">
+                                <label for="pixelRatio" class="form-label small">
+                                    Resolution
+                                    <i class="text-muted" data-bs-toggle="tooltip" data-bs-placement="left" title="Controls image resolution. 1x = standard resolution, 2x = high resolution (retina), 3x = ultra high resolution. Higher values create sharper images but larger file sizes.">ℹ️</i>
+                                </label>
+                                <select id="pixelRatio" class="form-select form-select-sm">
+                                    <option value="1">1x</option>
+                                    <option value="2" selected>2x</option>
+                                    <option value="3">3x</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-2">
+                                <label for="outputWidth" class="form-label small">
+                                    Width (px)
+                                    <i class="text-muted" data-bs-toggle="tooltip" data-bs-placement="left" title="Forces a specific width for the generated image. Leave empty to use the natural width of your HTML content.">ℹ️</i>
+                                </label>
+                                <input type="number" id="outputWidth" class="form-control form-control-sm" placeholder="Auto" min="200" max="2000" step="50">
+                            </div>
+                            
+                            <div class="form-check">
+                                <input type="checkbox" id="cacheBust" class="form-check-input" checked>
+                                <label for="cacheBust" class="form-check-label small">
+                                    Cache Bust
+                                    <i class="text-muted" data-bs-toggle="tooltip" data-bs-placement="left" title="Prevents browser caching issues by adding a timestamp to image URLs. Keep enabled if your HTML contains images that might be cached. Disable for faster conversion if no external images are used.">ℹ️</i>
+                                </label>
+                            </div>
+                            
+                            <div class="form-check">
+                                <input type="checkbox" id="watermarkEnabled" class="form-check-input">
+                                <label for="watermarkEnabled" class="form-check-label small">
+                                    Add Watermark
+                                    <i class="text-muted" data-bs-toggle="tooltip" data-bs-placement="left" title="Overlay a watermark image at the bottom-right corner of the generated image with transparency.">ℹ️</i>
+                                </label>
+                            </div>
+                            
+                            <div id="watermarkOptions" class="mb-2" style="display: none;">
+                                <label for="watermarkUrl" class="form-label small">
+                                    Watermark Image URL
+                                    <i class="text-muted" data-bs-toggle="tooltip" data-bs-placement="left" title="URL to the watermark image. Should be a publicly accessible image (PNG/JPEG/SVG). For best results, use CORS-enabled servers like imgur.com, github.com, or your own server with proper headers. Image will be resized to fit appropriately.">ℹ️</i>
+                                </label>
+                                <input type="url" id="watermarkUrl" class="form-control form-control-sm" placeholder="https://i.imgur.com/example.png" value="https://blog.luyencode.net/wp-content/uploads/2025/03/logo.png">
+                                <small class="form-text text-muted">💡 Tip: Use imgur.com, github.com, or other CORS-friendly hosts for best compatibility</small>
+                                <div class="mt-1">
+                                    <label for="watermarkOpacity" class="form-label small">
+                                        Opacity - <span id="watermarkOpacityValue">50%</span>
+                                    </label>
+                                    <input type="range" id="watermarkOpacity" class="form-range" min="0.1" max="1" step="0.1" value="0.5">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Convert Button - Fixed at Bottom -->
+                    <div class="convert-button-container">
+                        <button id="convertButton" type="button" class="btn btn-success w-100">
+                            🚀 Convert
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview Column -->
+            <div class="col-lg-5">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Live Preview</h5>
+                        <button id="refreshPreview" class="btn btn-outline-secondary btn-sm">Refresh</button>
+                    </div>
+                    <div class="card-body p-0 d-flex flex-column">
+                        <div id="previewContainer">
+                            <div id="previewContent" class="p-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Output Section -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Generated Image</h5>
+                        <div>
+                            <button id="downloadImage" class="btn btn-success me-2" disabled>Download Image</button>
+                            <button id="copyToClipboard" class="btn btn-outline-secondary" disabled>Copy to Clipboard</button>
+                        </div>
+                    </div>
+                    <div class="card-body text-center">
+                        <div id="imageOutput" style="min-height: 200px; display: flex; align-items: center; justify-content: center;">
+                            <div class="text-muted">
+                                <i class="display-4">🖼️</i>
+                                <p class="mt-2 mb-1">Generated image will appear here</p>
+                                <small>Select a format and click to generate</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-spinner"></div>
+            <p>Generating image...</p>
+        </div>
+    </div>
+
+    <footer class="text-center mt-5 py-3 text-muted">
+        <p class="mb-0">Built with <a href="https://github.com/bubkoo/html-to-image" target="_blank" class="text-decoration-none">html-to-image</a></p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

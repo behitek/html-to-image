@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://tools.behitek.com/sitemap.xml
+
+# Disallow server files and development files
+Disallow: /html-to-image/start-server.bat
+Disallow: /html-to-image/start-server.sh
+Disallow: /html-to-image/server.py
+Disallow: /html-to-image/AGENTS.md
+Disallow: /.git/
+Disallow: /.github/
